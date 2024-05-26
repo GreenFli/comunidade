@@ -1,27 +1,50 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<channels>
-  <channel>
-    <name>Lançamentos</name>
-    <thumbnail>http://community-links.googlecode.com/svn/icons/news-icon.png</thumbnail>
-    <fanart>http://community-links.googlecode.com/svn/icons/news-fanart.jpg</fanart>
-    <info>Animes</info>
-    <externallink>https://script.googleusercontent.com/macros/echo?user_content_key=xgDyAcebsKiSJeyxEr4uowebo_Vyt83GjeCTHT-BpWm7gHJlKcB0BANAwSKLwwLF41NUvyLZRnG_CCzwO_igLiAKUMtroYEAm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnNzmVueRXw5WBnC5q3jlYbiSmMAoWWG1YpIloYDE0gp_8PTmXp64MxoENkd3PbiWeH5jktp5CbKh2a6Q-WUG0azt15MWTN4iL9z9Jw9Md8uu&amp;lib=MsAEZUaI0UIggnf94B2GtaCJPQNkJ22u8</externallink>
-  </channel>
-  
-  <channel>
-    <name>Ordem Alfabética</name>
-    <thumbnail>http://community-links.googlecode.com/svn/icons/news-icon.png</thumbnail>
-    <fanart>http://community-links.googlecode.com/svn/icons/news-fanart.jpg</fanart>
-    <info>Canais do farruk</info>
-    <externallink>https://script.googleusercontent.com/macros/echo?user_content_key=xXz5w1wz0ENFmPHLDmcsMZd5whcf4EoKHHY52Bi30xz6pI0xG9uZPFz_xwyBUKlshdQcp9vtMb_viHK4nBwWphhvqZTGf4Dnm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnMeNd5-KvTBUTfe44Cst9VMqhRXPXPB7LlKacjXnVN9xL4xdA4V58tc5TvntHIcWL5nATNHahhBHX6H50dHwL1BYS0heVb3uFNz9Jw9Md8uu&amp;lib=MsAEZUaI0UIggnf94B2GtaCJPQNkJ22u8</externallink>
-  </channel>
-  
-  <channel>
-    <name>Gêneros</name>
-    <thumbnail>http://community-links.googlecode.com/svn/icons/news-icon.png</thumbnail>
-    <fanart>http://community-links.googlecode.com/svn/icons/news-fanart.jpg</fanart>
-    <info>Canais do farruk</info>
-    <externallink>https://script.googleusercontent.com/macros/echo?user_content_key=zD2ntnR9DBHlKlnS-wXTUoK6NnK7v8CeEpMyX7_o2j00ptEaQ8qU0s8zSPdjkMmmW2QgO34lFbIR8JjRgEoNRxTbviaNVxOym5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnL8XsRdn7heylELC1ybnqPcdg_9_iO9nd8YhVDHLizF1KnqC5kJcq2WtmwyJwQN-9ZCaYyzapvA8T591dFFMOeIfGzUCd1ndDdz9Jw9Md8uu&amp;lib=MsAEZUaI0UIggnf94B2GtaCJPQNkJ22u8
-</externallink>
-  </channel>
-</channels>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to XML for Kodi</title>
+    <style>
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: #f4f4f4;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>JSON to XML for Kodi</h1>
+    <pre id="output"></pre>
+    
+    <script>
+        const jsonUrl = "https://script.googleusercontent.com/macros/echo?user_content_key=lZXGWHKsp-6hvxyydRpzvDq4APMfioUxXbvJXmQc0WCTdFr5xzEhWyZ8JklnDguhBX4U23MNgf_jtH_Tfvr8X5_AmytHURiym5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnOv4_k6Ip68xUjOSXk9hVo2RjY9j1oq7ntwCijfwPSnGtzpbYkM_Vl7BHsBZ7CbQWpRdTGBNBvhukGaCmYdbVFWPCPYlD3DtSw&lib=Md3LnKtIWjeDE5GwMu6W6bN_2Uq8BBHw2";
+
+        fetch(jsonUrl)
+            .then(response => response.json())
+            .then(data => {
+                const xmlString = jsonToKodiXml(data);
+                document.getElementById("output").textContent = xmlString;
+            })
+            .catch(error => console.error('Error fetching JSON:', error));
+
+        function jsonToKodiXml(json) {
+            let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<items>\n';
+            json.forEach(item => {
+                xml += '  <item>\n';
+                xml += `    <title>${item.title}</title>\n`;
+                xml += `    <link>${item.link}</link>\n`;
+                xml += `    <thumbnail>${item.thumbnail}</thumbnail>\n`;
+                xml += `    <fanart>${item.fanart}</fanart>\n`;
+                xml += `    <info>${item.info}</info>\n`;
+                xml += `    <genero>${item.genero}</genero>\n`;
+                xml += `    <lancamento>${item.lancamento}</lancamento>\n`;
+                xml += '  </item>\n';
+            });
+            xml += '</items>';
+            return xml;
+        }
+    </script>
+</body>
+</html>
